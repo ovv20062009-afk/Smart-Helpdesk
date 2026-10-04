@@ -40,13 +40,16 @@ ML-задача - многоклассовая классификация тек
 ## 2. Контекст системы
 
 ```mermaid
-flowchart TB
-    Student[Студент] --- Tickets[Внешняя система заявок]
-    Tickets ---|Запрос и ответ JSON| AI[Smart Helpdesk]
-    Tickets --- Operator[Оператор]
-    Admin[Администратор] ---|GET /health| AI
-    Monitor[Prometheus] ---|GET /metrics| AI
+flowchart LR
+    Student[Студент] -->|Текст обращения| Tickets[Внешняя система заявок]
+    Tickets -->|HTTPS JSON| Helpdesk[Smart Helpdesk]
+    Helpdesk -->|Категория и маршрут| Tickets
+    Tickets -->|Ручная проверка| Operator[Оператор]
+    Operator -->|Уточнённая категория| Tickets
+    Admin[Администратор] -->|Проверка готовности| Helpdesk
+    Monitor[Prometheus] -->|GET /metrics| Helpdesk
 ```
+
 
 Студент отправляет обращение через систему заявок. Она получает от Smart Helpdesk категорию и предложенный отдел. Если уверенность ниже 0,8, обращение проверяет оператор и выбирает отдел вручную. Для внешнего подключения предусмотрен HTTPS; локально сервис проверялся по HTTP.
 
@@ -65,18 +68,18 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    Client[Система заявок] --- API[FastAPI: ключ и Pydantic]
+    Client[Система заявок] --> API[FastAPI: ключ и Pydantic]
     subgraph App[Контейнер приложения]
-      API --- Service[Сервис маршрутизации]
-      Service --- Clean[Очистка и токенизация]
-      Clean --- Model[ModelLoader]
-      Model --- Rules[Порог уверенности 0.8]
-      Rules --- Audit[Модуль аудита]
-      API --- Observe[JSON-логи и метрики]
+      API --> Service[Сервис маршрутизации]
+      Service --> Clean[Очистка и токенизация]
+      Clean --> Model[ModelLoader]
+      Model --> Rules[Порог уверенности 0.8]
+      Rules --> Audit[Модуль аудита]
+      API --> Observe[JSON-логи и метрики]
     end
-    Audit --- DB[(SQLite)]
-    Store[(MinIO или MLflow)] -.-|Будущий pipeline| Model
-    Rules ---|JSON| Client
+    Audit --> DB[(SQLite)]
+    Store[(MinIO или MLflow)] -.->|Будущий pipeline| Model
+    Rules -->|JSON| Client
 ```
 
 | Компонент | Назначение | Входные данные | Выходные данные | Библиотеки |
