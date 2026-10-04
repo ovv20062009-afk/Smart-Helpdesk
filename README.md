@@ -41,11 +41,9 @@ ML-задача — многоклассовая классификация те
 
 ```mermaid
 flowchart TB
-    Student[Студент] -->|Текст обращения| Tickets[Внешняя система заявок]
-    Tickets -->|HTTPS JSON| AI[Smart Helpdesk]
-    AI -->|Категория и маршрут| Tickets
-    Tickets -->|Низкая уверенность| Operator[Оператор]
-    Operator -->|Уточнённая категория| Tickets
+    Student[Студент] -->|Обращение| Tickets[Система заявок]
+    Tickets <-->|Запрос и результат: HTTPS JSON| AI[Smart Helpdesk]
+    Tickets <-->|Ручная проверка и уточнение| Operator[Оператор]
     Admin[Администратор] -->|Проверка готовности| AI
     Monitor[Prometheus] -->|GET /metrics| AI
 ```
