@@ -4,7 +4,7 @@
 
 **Тема № 4: служба поддержки и умная маршрутизация обращений.**
 
-Репозиторий: https://github.com/ovv20062009-afk/Smart-Helpdesk
+https://github.com/ovv20062009-afk/Smart-Helpdesk
 
 ## 1. Задача и требования
 
