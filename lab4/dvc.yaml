@@ -1,0 +1,24 @@
+stages:
+  prepare_data:
+    cmd: python -m src.pipeline
+    deps:
+      - src/pipeline.py
+      - src/contracts.py
+      - src/preprocessing.py
+      - requirements.txt
+      - data/raw/tickets.csv
+    params:
+      - prepare.train_share
+      - prepare.max_features
+      - prepare.ngram_max
+    outs:
+      - data/processed/train.parquet
+      - data/processed/test.parquet
+      - data/processed/split_ids.json
+      - artifacts/preprocessor.joblib
+      - artifacts/feature_names.json
+    metrics:
+      - data/processed/validation_report.json:
+          cache: false
+      - data/processed/mlflow_run.json:
+          cache: false

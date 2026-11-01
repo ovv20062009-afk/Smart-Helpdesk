@@ -1,0 +1,59 @@
+schema: '2.0'
+stages:
+  prepare_data:
+    cmd: python -m src.pipeline
+    deps:
+    - path: data/raw/tickets.csv
+      hash: md5
+      md5: d4e4630fd1900b8d63af92424f960c03
+      size: 6203
+    - path: requirements.txt
+      hash: md5
+      md5: 37464ceb3646ceb4142a32f414c22042
+      size: 156
+    - path: src/contracts.py
+      hash: md5
+      md5: d25fb4c00e1720b8b8196327a0cf84eb
+      size: 662
+    - path: src/pipeline.py
+      hash: md5
+      md5: cbf326a5847387f74eb5832efa390169
+      size: 6850
+    - path: src/preprocessing.py
+      hash: md5
+      md5: 1b4d4a757fa2c5e2e6169a9f96b64f65
+      size: 532
+    params:
+      params.yaml:
+        prepare.max_features: 500
+        prepare.ngram_max: 2
+        prepare.train_share: 0.8
+    outs:
+    - path: artifacts/feature_names.json
+      hash: md5
+      md5: 7d684d30d9d3ecc6ad341d8efb31336f
+      size: 9899
+    - path: artifacts/preprocessor.joblib
+      hash: md5
+      md5: 1df247cd0e8fbc1db14f23569da2b640
+      size: 18994
+    - path: data/processed/mlflow_run.json
+      hash: md5
+      md5: 50dfba731454e759fc2e6021559b61b4
+      size: 792
+    - path: data/processed/split_ids.json
+      hash: md5
+      md5: 520b6f80b9d0b2e7e2fe2160aaa15a87
+      size: 940
+    - path: data/processed/test.parquet
+      hash: md5
+      md5: 868b96fd2eddd5e18ccb76c93f8fbbff
+      size: 179295
+    - path: data/processed/train.parquet
+      hash: md5
+      md5: 03f5d7edd95cee8fce50fbd6c0dbcdf1
+      size: 183042
+    - path: data/processed/validation_report.json
+      hash: md5
+      md5: e86c0af2b9c0c4f69aa44c3d2a171bf1
+      size: 199
