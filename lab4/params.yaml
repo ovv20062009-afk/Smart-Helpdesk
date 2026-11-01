@@ -1,0 +1,4 @@
+prepare:
+  train_share: 0.8
+  max_features: 500
+  ngram_max: 2

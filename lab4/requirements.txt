@@ -1,0 +1,10 @@
+pandas==2.2.3
+numpy==2.2.6
+scikit-learn==1.8.0
+pandera[pandas]==0.29.0
+dvc==3.67.1
+mlflow==3.10.1
+joblib==1.5.3
+pyarrow==23.0.1
+PyYAML==6.0.3
+pytest==8.4.2

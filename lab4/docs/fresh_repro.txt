@@ -1,0 +1,28 @@
+Verifying data sources in stage: 'data/raw/tickets.csv.dvc'
+
+Running stage 'prepare_data':
+> python -m src.pipeline
+2026/11/01 07:00:53 INFO mlflow.store.db.utils: Creating initial MLflow database tables...
+2026/11/01 07:00:53 INFO mlflow.store.db.utils: Updating database tables
+{
+  "raw_rows": 64,
+  "empty_rows": 2,
+  "duplicate_rows": 2,
+  "clean_rows": 60,
+  "train_rows": 48,
+  "test_rows": 12,
+  "feature_count": 302,
+  "text_overlap": 0,
+  "missing_values": 0
+}
+MLflow Run: 01bb46e8947e49189888ee10ec0e2c81
+Updating lock file 'dvc.lock'
+
+To track the changes with git, run:
+
+	git add data/raw/tickets.csv.dvc dvc.lock
+
+To enable auto staging, run:
+
+	dvc config core.autostage true
+Use `dvc push` to send your updates to remote storage.

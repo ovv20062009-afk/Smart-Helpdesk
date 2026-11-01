@@ -1,0 +1,5 @@
+{
+  "unchanged_data_skips_stage": true,
+  "changed_csv_reruns_stage": true,
+  "invalid_category_blocks_pipeline": true
+}

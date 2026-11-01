@@ -1,0 +1,81 @@
+INITIAL
+'data\raw\tickets.csv.dvc' didn't change, skipping
+Stage 'prepare_data' didn't change, skipping
+Data and pipelines are up to date.
+
+
+UNCHANGED
+'data\raw\tickets.csv.dvc' didn't change, skipping
+Stage 'prepare_data' didn't change, skipping
+Data and pipelines are up to date.
+
+
+CHANGED
+Verifying data sources in stage: 'data\raw\tickets.csv.dvc'
+
+Running stage 'prepare_data':
+> python -m src.pipeline
+{
+  "raw_rows": 64,
+  "empty_rows": 2,
+  "duplicate_rows": 1,
+  "clean_rows": 61,
+  "train_rows": 48,
+  "test_rows": 13,
+  "feature_count": 298,
+  "text_overlap": 0,
+  "missing_values": 0
+}
+MLflow Run: e46b5d6e1f1f450497fa8c101ad77207
+Updating lock file 'dvc.lock'
+
+To track the changes with git, run:
+
+	git add dvc.lock 'data\raw\tickets.csv.dvc'
+
+To enable auto staging, run:
+
+	dvc config core.autostage true
+Use `dvc push` to send your updates to remote storage.
+
+
+INVALID
+Verifying data sources in stage: 'data\raw\tickets.csv.dvc'
+
+Running stage 'prepare_data':
+> python -m src.pipeline
+������ ���������� ������: {
+    "DATA": {
+        "DATAFRAME_CHECK": [
+            {
+                "schema": null,
+                "column": "category",
+                "check": "isin(['TECHNICAL', 'PAYMENT', 'STUDY'])",
+                "error": "Column 'category' failed element-wise validator number 0: isin(['TECHNICAL', 'PAYMENT', 'STUDY']) failure cases: INVALID"
+            }
+        ]
+    }
+}
+ERROR: failed to reproduce 'prepare_data': failed to run: python -m src.pipeline, exited with 1
+
+
+RESTORED
+Verifying data sources in stage: 'data\raw\tickets.csv.dvc'
+
+Stage 'prepare_data' is cached - skipping run, checking out outputs
+Updating lock file 'dvc.lock'
+
+To track the changes with git, run:
+
+	git add 'data\raw\tickets.csv.dvc' dvc.lock
+
+To enable auto staging, run:
+
+	dvc config core.autostage true
+Use `dvc push` to send your updates to remote storage.
+
+
+FINAL
+'data\raw\tickets.csv.dvc' didn't change, skipping
+Stage 'prepare_data' didn't change, skipping
+Data and pipelines are up to date.
