@@ -13,11 +13,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.mark.parametrize("failure", ["missing_model", "model_error", "preprocessing_error", "nan_output"])
 def test_runtime_failure_uses_rule(failure):
-    with TestClient(create_app(ROOT)) as client:
-        model = client.app.state.model
-        preprocessor = client.app.state.preprocessor
+    with TestClient(create_app(ROOT), headers={"Authorization": "Bearer unit-test-only"}) as client:
+        model = client.app.state.adapter.model
+        preprocessor = client.app.state.adapter.preprocessor
         if failure == "missing_model":
-            client.app.state.model = None
+            client.app.state.adapter.model = None
             context = patch.object(preprocessor, "transform", wraps=preprocessor.transform)
         elif failure == "model_error":
             context = patch.object(model, "predict_proba", side_effect=RuntimeError("secret internal data"))
@@ -39,7 +39,7 @@ def test_runtime_failure_uses_rule(failure):
 
 
 def test_missing_artifacts_still_allow_manual_queue(tmp_path):
-    with TestClient(create_app(tmp_path)) as client:
+    with TestClient(create_app(tmp_path), headers={"Authorization": "Bearer unit-test-only"}) as client:
         assert client.get("/health").json()["status"] == "degraded"
         result = client.post("/predict", json={"ticket_id": "T-7", "text": "Пароль и оплата"}).json()
         assert result["source"] == "fallback_rule" and result["destination"] == "OPERATOR"
@@ -48,7 +48,7 @@ def test_missing_artifacts_still_allow_manual_queue(tmp_path):
 
 
 def test_invalid_input_does_not_enter_fallback(tmp_path):
-    with TestClient(create_app(tmp_path)) as client:
+    with TestClient(create_app(tmp_path), headers={"Authorization": "Bearer unit-test-only"}) as client:
         with patch("src.api.fallback_decision") as fallback:
             response = client.post("/predict", json={"ticket_id": "T-1", "text": ""})
             assert response.status_code == 422
@@ -57,8 +57,8 @@ def test_invalid_input_does_not_enter_fallback(tmp_path):
 
 
 def test_model_can_recover_after_transient_error():
-    with TestClient(create_app(ROOT)) as client:
-        with patch.object(client.app.state.model, "predict_proba", side_effect=RuntimeError("failed")):
+    with TestClient(create_app(ROOT), headers={"Authorization": "Bearer unit-test-only"}) as client:
+        with patch.object(client.app.state.adapter.model, "predict_proba", side_effect=RuntimeError("failed")):
             assert client.post("/predict", json={"ticket_id": "T-1", "text": "Пароль"}).json()["source"] == "fallback_rule"
         assert client.get("/health").json()["status"] == "degraded"
         assert client.post("/predict", json={"ticket_id": "T-2", "text": "Пароль"}).json()["source"] == "model"
@@ -67,8 +67,8 @@ def test_model_can_recover_after_transient_error():
 
 def test_demonstration_can_disable_model(monkeypatch):
     monkeypatch.setenv("HELPDESK_DISABLE_MODEL", "1")
-    with patch("src.api.load_bundle") as loader:
-        with TestClient(create_app(ROOT)) as client:
+    with patch("src.model_adapter.load_bundle") as loader:
+        with TestClient(create_app(ROOT), headers={"Authorization": "Bearer unit-test-only"}) as client:
             response = client.post("/predict", json={"ticket_id": "T-8", "text": "Оплата квитанция"})
             assert response.status_code == 200
             assert response.json()["source"] == "fallback_rule"

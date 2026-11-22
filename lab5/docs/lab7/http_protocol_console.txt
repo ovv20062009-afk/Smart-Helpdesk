@@ -1,0 +1,58 @@
+[
+  {
+    "check": "health",
+    "expected": 200,
+    "actual": 200,
+    "trace_id": "27789c8f-6588-4851-8b4d-b3a68ca4583d"
+  },
+  {
+    "check": "ready",
+    "expected": 200,
+    "actual": 200,
+    "trace_id": "30fd7e10-fe63-4532-aa2a-3275e1ee13f5"
+  },
+  {
+    "check": "real_model",
+    "expected": 200,
+    "actual": 200,
+    "trace_id": "22f0ff65-10b1-4d8d-ac70-47772810dcf0"
+  },
+  {
+    "check": "no_token",
+    "expected": 401,
+    "actual": 401,
+    "trace_id": "d7534c41-9800-4093-ae2b-2560521d1028"
+  },
+  {
+    "check": "wrong_token",
+    "expected": 401,
+    "actual": 401,
+    "trace_id": "713546c2-774c-436d-b2d5-bdadbe6a1fda"
+  },
+  {
+    "check": "forbidden",
+    "expected": 403,
+    "actual": 403,
+    "trace_id": "2b17ea2a-cd74-47e8-9041-2bb837e22c19"
+  },
+  {
+    "check": "invalid_input",
+    "expected": 422,
+    "actual": 422,
+    "trace_id": "e5db2678-128a-449e-ab66-178e523ddcae"
+  },
+  {
+    "check": "quota_exhausted",
+    "expected": 429,
+    "actual": 429,
+    "trace_id": "f7264cd9-34d3-482b-9dd4-28f036cf76ca",
+    "retry_after": "59"
+  },
+  {
+    "check": "health_after_quota",
+    "expected": 200,
+    "actual": 200,
+    "trace_id": "24a02068-7828-46c8-b29d-47980661dc4e"
+  }
+]
+Квота исчерпана намеренно. Дождитесь Retry-After или перезапустите учебный контейнер.

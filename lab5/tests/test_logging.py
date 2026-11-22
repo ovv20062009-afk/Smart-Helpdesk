@@ -40,7 +40,7 @@ def test_stdout_and_no_duplicate_handlers():
 
 def test_trace_matches_response_header_and_json_log():
     with captured_logs() as stream:
-        with TestClient(create_app(ROOT)) as client:
+        with TestClient(create_app(ROOT), headers={"Authorization": "Bearer unit-test-only"}) as client:
             response = client.post("/predict", json={"ticket_id": "T-1", "text": "Не могу войти, забыла пароль"})
     data = response.json()
     assert response.headers["X-Trace-ID"] == data["trace_id"]
@@ -54,7 +54,7 @@ def test_trace_matches_response_header_and_json_log():
 
 def test_no_secret_text_headers_or_validation_input_in_logs(tmp_path):
     with captured_logs() as stream:
-        with TestClient(create_app(tmp_path)) as client:
+        with TestClient(create_app(tmp_path), headers={"Authorization": "Bearer unit-test-only"}) as client:
             client.post("/predict?token=QUERY_SECRET", headers={"Authorization": "Bearer HEADER_SECRET"},
                         json={"ticket_id": "T-2", "text": "Пароль TEXT_SECRET"})
             response = client.post("/predict", json={"ticket_id": "T-2", "text": "", "password": "EXTRA_SECRET"})
@@ -77,7 +77,7 @@ def test_formatter_keeps_one_line_and_filters_extra_fields():
 
 def test_parallel_requests_have_distinct_traces():
     with captured_logs() as stream:
-        with TestClient(create_app(ROOT)) as client:
+        with TestClient(create_app(ROOT), headers={"Authorization": "Bearer unit-test-only"}) as client:
             def call(i):
                 return client.post("/predict", json={"ticket_id": f"T-{i}", "text": "Пароль"})
             with ThreadPoolExecutor(max_workers=4) as executor:
@@ -92,7 +92,7 @@ def test_parallel_requests_have_distinct_traces():
 
 
 def test_swagger_fields_have_descriptions():
-    with TestClient(create_app(ROOT)) as client:
+    with TestClient(create_app(ROOT), headers={"Authorization": "Bearer unit-test-only"}) as client:
         assert client.get("/docs").status_code == 200
         schema = client.get("/openapi.json").json()
     for name in ("PredictionRequest", "PredictionResult"):
@@ -111,7 +111,7 @@ def test_formatter_is_one_json_line_and_filters_fields():
 
 def test_concurrent_requests_keep_separate_traces():
     with captured_logs() as stream:
-        with TestClient(create_app(ROOT)) as client:
+        with TestClient(create_app(ROOT), headers={"Authorization": "Bearer unit-test-only"}) as client:
             def send(index):
                 return client.post("/predict", json={"ticket_id": f"T-{index}", "text": "Пароль"})
             with ThreadPoolExecutor(max_workers=4) as pool:

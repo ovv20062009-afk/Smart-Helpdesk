@@ -26,7 +26,7 @@ jobs:
       - name: Install pinned dependencies
         run: python -m pip install -r requirements-dev.txt -r lab4/requirements.txt -r lab5/requirements-dev.txt
       - name: Lint service and tests
-        run: python -m ruff check lab5/src lab5/tests lab5/prepare_artifacts.py lab5/record_docker.py lab5/check_json_logs.py --select E9,F
+        run: python -m ruff check lab5/src lab5/tests lab5/prepare_artifacts.py lab5/record_docker.py lab5/check_json_logs.py lab5/configure_local.py lab5/record_rest.py --select E9,F
       - name: Previous component and API tests
         run: python -m pytest -q tests
       - name: Data contract and data pipeline tests
@@ -47,8 +47,19 @@ jobs:
         run: docker build --progress=plain -t "$HELPDESK_IMAGE" .
         env:
           HELPDESK_IMAGE: smart-helpdesk:${{ github.sha }}
+      - name: Create temporary API credentials
+        run: |
+          python - <<'PYCODE'
+          import os
+          import secrets
+          with open(os.environ["GITHUB_ENV"], "a") as file:
+              for key in ("APP_DEMO_TOKEN", "APP_READONLY_TOKEN"):
+                  value = secrets.token_urlsafe(32)
+                  print("::add-mask::" + value)
+                  file.write(key + "=" + value + "\n")
+          PYCODE
       - name: Deploy test container
-        run: docker run -d -p 127.0.0.1:8000:8000 --name smart-helpdesk-ci "$HELPDESK_IMAGE"
+        run: docker run -d -p 127.0.0.1:8000:8000 --env APP_DEMO_TOKEN --env APP_READONLY_TOKEN --name smart-helpdesk-ci "$HELPDESK_IMAGE"
         env:
           HELPDESK_IMAGE: smart-helpdesk:${{ github.sha }}
       - name: Smoke tests, Swagger schema and image size
@@ -62,15 +73,18 @@ jobs:
         env:
           HELPDESK_IMAGE: smart-helpdesk:${{ github.sha }}
         run: |
-          docker run -d -p 127.0.0.1:8001:8000 -e HELPDESK_DISABLE_MODEL=1 --name smart-helpdesk-ci-fallback "$HELPDESK_IMAGE"
-          HELPDESK_URL=http://127.0.0.1:8001 HELPDESK_EXPECT_SOURCE=fallback_rule python -m pytest -q tests/test_container.py > docs/lab6/fallback_container_tests.txt
+          docker run -d -p 127.0.0.1:8001:8000 -e HELPDESK_DISABLE_MODEL=1 --env APP_DEMO_TOKEN --env APP_READONLY_TOKEN --name smart-helpdesk-ci-fallback "$HELPDESK_IMAGE"
+          HELPDESK_URL=http://127.0.0.1:8001 HELPDESK_EXPECT_SOURCE=fallback_rule python -m pytest -q tests/test_container.py > docs/lab7/fallback_container_tests.txt
+      - name: Record real HTTP access and quota checks
+        working-directory: lab5
+        run: python record_rest.py
       - name: Validate Docker JSONL logs
         working-directory: lab5
         run: |
-          docker logs smart-helpdesk-ci > docs/lab6/container_logs.jsonl 2>&1
-          docker logs smart-helpdesk-ci-fallback > docs/lab6/fallback_logs.jsonl 2>&1
-          python check_json_logs.py docs/lab6/container_logs.jsonl
-          python check_json_logs.py docs/lab6/fallback_logs.jsonl
+          docker logs smart-helpdesk-ci > docs/lab7/container_logs.jsonl 2>&1
+          docker logs smart-helpdesk-ci-fallback > docs/lab7/fallback_logs.jsonl 2>&1
+          python check_json_logs.py docs/lab7/container_logs.jsonl
+          python check_json_logs.py docs/lab7/fallback_logs.jsonl
       - name: Package tested Docker image for delivery
         env:
           HELPDESK_IMAGE: smart-helpdesk:${{ github.sha }}
@@ -90,8 +104,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lab6-verification-${{ github.sha }}
-          path: lab5/docs/lab6/
+          name: lab7-verification-${{ github.sha }}
+          path: lab5/docs/lab7/
           retention-days: 14
       - name: Container logs on failure
         if: failure()

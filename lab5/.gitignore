@@ -5,3 +5,6 @@ __pycache__/
 .env
 artifacts/*.joblib
 models/*.joblib
+
+.env.*
+!.env.example

@@ -7,7 +7,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parent
 IMAGE = os.environ.get("HELPDESK_IMAGE", "smart-helpdesk:v1.4.0")
-CONTAINER = os.environ.get("HELPDESK_CONTAINER", "smart-helpdesk-lab6")
+CONTAINER = os.environ.get("HELPDESK_CONTAINER", "smart-helpdesk-lab7")
 
 
 def inspect(kind, name):
@@ -17,21 +17,23 @@ def inspect(kind, name):
 
 
 def main():
-    (ROOT / "docs/lab6").mkdir(parents=True, exist_ok=True)
+    (ROOT / "docs/lab7").mkdir(parents=True, exist_ok=True)
     image = inspect("image", IMAGE)
     container = inspect("container", CONTAINER)
     if not container["State"]["Running"]:
-        raise SystemExit("Контейнер не запущен. Посмотрите docker logs smart-helpdesk-lab6")
+        raise SystemExit("Контейнер не запущен. Посмотрите docker logs smart-helpdesk-lab7")
     if container["Image"] != image["Id"]:
         raise SystemExit("Контейнер запущен из другого образа")
     ports = container["NetworkSettings"]["Ports"].get("8000/tcp") or []
     if not any(item["HostPort"] == "8000" and item["HostIp"] in ("127.0.0.1", "0.0.0.0") for item in ports):
         raise SystemExit("Порт контейнера 8000 не опубликован на порту 8000 хоста")
-    env = os.environ.copy()
+    from configure_local import local_environment
+    env = local_environment()
+    env["HELPDESK_EXPECT_SOURCE"] = "model"
     env["HELPDESK_URL"] = "http://127.0.0.1:8000"
     smoke = subprocess.run([sys.executable, "-m", "pytest", "-q", "tests/test_container.py"],
                            cwd=ROOT, env=env, text=True, encoding="utf-8", errors="replace", capture_output=True)
-    (ROOT / "docs/lab6/container_tests.txt").write_text(smoke.stdout + smoke.stderr, encoding="utf-8")
+    (ROOT / "docs/lab7/container_tests.txt").write_text(smoke.stdout + smoke.stderr, encoding="utf-8")
     print(smoke.stdout)
     if smoke.returncode:
         raise SystemExit(smoke.returncode)
@@ -49,7 +51,7 @@ def main():
               "container": CONTAINER, "running": True, "port": 8000,
               "included_files_bytes": context_bytes, "smoke_tests": "passed",
               "healthcheck": container["State"].get("Health", {}).get("Status", "not_available")}
-    (ROOT / "docs/lab6/docker_result.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
+    (ROOT / "docs/lab7/docker_result.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

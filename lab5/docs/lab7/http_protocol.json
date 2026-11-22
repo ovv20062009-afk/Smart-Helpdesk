@@ -1,0 +1,57 @@
+[
+  {
+    "check": "health",
+    "expected": 200,
+    "actual": 200,
+    "trace_id": "5318e52b-afba-4915-b919-9d798a52f57f"
+  },
+  {
+    "check": "ready",
+    "expected": 200,
+    "actual": 200,
+    "trace_id": "790baaf1-84a1-4c63-b9af-ab5b31849262"
+  },
+  {
+    "check": "real_model",
+    "expected": 200,
+    "actual": 200,
+    "trace_id": "324a0241-b36d-4ad7-bb16-11002f937135"
+  },
+  {
+    "check": "no_token",
+    "expected": 401,
+    "actual": 401,
+    "trace_id": "51d11cc9-7ec3-40a3-a4cf-37c67dbfb15f"
+  },
+  {
+    "check": "wrong_token",
+    "expected": 401,
+    "actual": 401,
+    "trace_id": "fe3897a2-8594-412c-9c09-3b0cb61e719d"
+  },
+  {
+    "check": "forbidden",
+    "expected": 403,
+    "actual": 403,
+    "trace_id": "b9b5bec4-bf05-45d6-a1f8-65162db2dd05"
+  },
+  {
+    "check": "invalid_input",
+    "expected": 422,
+    "actual": 422,
+    "trace_id": "7b6b28f0-ca25-417d-b5c8-3305c0258297"
+  },
+  {
+    "check": "quota_exhausted",
+    "expected": 429,
+    "actual": 429,
+    "trace_id": "04752512-a08a-4630-baa4-1c90937bb8ee",
+    "retry_after": "16"
+  },
+  {
+    "check": "health_after_quota",
+    "expected": 200,
+    "actual": 200,
+    "trace_id": "fb2800c8-a26d-4ac9-861d-14db4738d662"
+  }
+]

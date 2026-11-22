@@ -1,0 +1,23 @@
+{
+  "trace_id": "291c72af-a0ee-4ff5-a726-5191fe828dab",
+  "ticket_id": "T-LAB7-FALLBACK",
+  "prediction": {
+    "category": "TECHNICAL",
+    "confidence": null,
+    "destination": "IT_SUPPORT",
+    "manual_review_required": false,
+    "threshold_used": 0.8,
+    "matched_words": [
+      "войти",
+      "пароль"
+    ]
+  },
+  "metadata": {
+    "model_version": "v1.4.0",
+    "preprocessor_version": "lab4-tfidf-v1",
+    "timestamp_utc": "2026-11-22T08:20:11.698734Z",
+    "latency_ms": 0.194,
+    "source": "fallback_rule",
+    "degraded": true
+  }
+}

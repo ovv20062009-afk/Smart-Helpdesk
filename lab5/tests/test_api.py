@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.fixture
 def client():
-    with TestClient(create_app(ROOT)) as session:
+    with TestClient(create_app(ROOT), headers={"Authorization": "Bearer unit-test-only"}) as session:
         yield session
 
 
@@ -66,7 +66,7 @@ def test_low_probability_requires_operator(client):
 def test_loads_once_at_start():
     import joblib
     with patch("src.artifacts.joblib.load", wraps=joblib.load) as loader:
-        with TestClient(create_app(ROOT)) as client:
+        with TestClient(create_app(ROOT), headers={"Authorization": "Bearer unit-test-only"}) as client:
             assert loader.call_count == 2
             for _ in range(2):
                 assert client.post("/predict", json={"ticket_id": "T-1", "text": "Забыла пароль"}).status_code == 200
@@ -74,7 +74,7 @@ def test_loads_once_at_start():
 
 
 def test_missing_artifact_uses_fallback(tmp_path):
-    with TestClient(create_app(tmp_path)) as client:
+    with TestClient(create_app(tmp_path), headers={"Authorization": "Bearer unit-test-only"}) as client:
         assert client.get("/health").json()["status"] == "degraded"
         response = client.post("/predict", json={"ticket_id": "T-1", "text": "Пароль"})
         assert response.status_code == 200
@@ -92,7 +92,7 @@ def test_bad_checksum_is_rejected(tmp_path):
 
 
 def test_inference_failure_is_marked_as_fallback(client):
-    with patch.object(client.app.state.model, "predict_proba", side_effect=RuntimeError("failed")):
+    with patch.object(client.app.state.adapter.model, "predict_proba", side_effect=RuntimeError("failed")):
         response = client.post("/predict", json={"ticket_id": "T-1", "text": "Пароль"})
         assert response.status_code == 200
         assert response.json()["source"] == "fallback_rule"
