@@ -1,0 +1,63 @@
+{
+  "transport": "HTTP без Docker",
+  "health": {
+    "status": "ok",
+    "model_version": "v1.0.0",
+    "preprocessor_loaded": true,
+    "model_loaded": true
+  },
+  "predictions": [
+    {
+      "text": "Не могу войти в личный кабинет",
+      "status_code": 200,
+      "response": {
+        "ticket_id": "T-1",
+        "category": "TECHNICAL",
+        "confidence": 0.7672066563134579,
+        "destination": "OPERATOR",
+        "manual_review_required": true,
+        "model_version": "v1.0.0",
+        "preprocessor_version": "lab4-tfidf-v1"
+      }
+    },
+    {
+      "text": "Оплата обучения не отобразилась",
+      "status_code": 200,
+      "response": {
+        "ticket_id": "T-1",
+        "category": "PAYMENT",
+        "confidence": 0.7290869455337066,
+        "destination": "OPERATOR",
+        "manual_review_required": true,
+        "model_version": "v1.0.0",
+        "preprocessor_version": "lab4-tfidf-v1"
+      }
+    },
+    {
+      "text": "пароль оплата экзамен",
+      "status_code": 200,
+      "response": {
+        "ticket_id": "T-1",
+        "category": "TECHNICAL",
+        "confidence": 0.5515935313494092,
+        "destination": "OPERATOR",
+        "manual_review_required": true,
+        "model_version": "v1.0.0",
+        "preprocessor_version": "lab4-tfidf-v1"
+      }
+    },
+    {
+      "text": "абракадабра жужелица",
+      "status_code": 200,
+      "response": {
+        "ticket_id": "T-1",
+        "category": null,
+        "confidence": null,
+        "destination": "OPERATOR",
+        "manual_review_required": true,
+        "model_version": "v1.0.0",
+        "preprocessor_version": "lab4-tfidf-v1"
+      }
+    }
+  ]
+}

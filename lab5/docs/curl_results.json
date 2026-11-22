@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-22",
+  "source": "curl.exe к локальному Docker-контейнеру smart-helpdesk-lab5",
+  "checks": [
+    {
+      "method": "GET",
+      "path": "/health",
+      "http_status": 200,
+      "response": {
+        "status": "ok",
+        "model_version": "v1.0.0",
+        "preprocessor_loaded": true,
+        "model_loaded": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/predict",
+      "request_file": "request.json",
+      "http_status": 200,
+      "response": {
+        "ticket_id": "T-1",
+        "category": "TECHNICAL",
+        "confidence": 0.7672066563134582,
+        "destination": "OPERATOR",
+        "manual_review_required": true,
+        "model_version": "v1.0.0",
+        "preprocessor_version": "lab4-tfidf-v1"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/predict",
+      "request_file": "bad_request.json",
+      "http_status": 422,
+      "response": {
+        "detail": [
+          {
+            "type": "string_too_short",
+            "loc": [
+              "body",
+              "text"
+            ],
+            "msg": "String should have at least 1 character",
+            "input": "",
+            "ctx": {
+              "min_length": 1
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

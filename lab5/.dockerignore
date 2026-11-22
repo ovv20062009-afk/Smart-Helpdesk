@@ -1,0 +1,23 @@
+# Only serving files and our prepared artifacts enter the context.
+**
+!requirements.txt
+!src/
+!src/*.py
+!artifacts/
+!artifacts/preprocessor.joblib
+!artifacts/manifest.json
+!models/
+!models/model.joblib
+!Dockerfile
+!.dockerignore
+# Explicitly keep local environments, data and caches out.
+venv/
+.venv/
+**/__pycache__/
+**/*.pyc
+.git/
+.dvc/
+**/data/raw/
+data/raw/
+mlruns/
+.env
