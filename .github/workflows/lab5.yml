@@ -1,45 +1,8 @@
-name: Lab 5 Docker
-on: [push, pull_request]
+name: Lab 5 Docker manual
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
 jobs:
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install preparation and test dependencies
-        run: python -m pip install -r lab4/requirements.txt -r lab5/requirements-dev.txt
-      - name: Restore Lab 4 artifacts
-        working-directory: lab4
-        run: |
-          python -m src.make_sample
-          python -m src.pipeline
-      - name: Prepare classifier and check API
-        working-directory: lab5
-        run: |
-          python prepare_artifacts.py
-          python -m pytest -q tests/test_api.py
-      - name: Build versioned image
-        working-directory: lab5
-        run: docker build --progress=plain -t smart-helpdesk:v1.0.0 .
-      - name: Start container
-        run: docker run -d -p 127.0.0.1:8000:8000 --name smart-helpdesk-lab5 smart-helpdesk:v1.0.0
-      - name: Smoke tests and image size
-        working-directory: lab5
-        run: python record_docker.py
-      - name: Upload results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lab5-docker-results
-          path: |
-            lab5/docs/docker_result.json
-            lab5/docs/container_tests.txt
-            lab5/docs/training_metrics.json
-      - name: Container logs
-        if: always()
-        run: docker logs smart-helpdesk-lab5 || true
-      - name: Remove CI container
-        if: always()
-        run: docker rm -f smart-helpdesk-lab5 || true
+  verify-current-service:
+    uses: ./.github/workflows/ml-ci-cd.yml

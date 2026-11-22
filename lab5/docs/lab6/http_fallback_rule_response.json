@@ -1,0 +1,16 @@
+{
+  "trace_id": "05f25820-0f0e-4cbe-9a1b-2dd949ab7035",
+  "ticket_id": "T-TRACE",
+  "category": "TECHNICAL",
+  "confidence": null,
+  "destination": "IT_SUPPORT",
+  "manual_review_required": false,
+  "model_version": "v1.4.0",
+  "preprocessor_version": "lab4-tfidf-v1",
+  "source": "fallback_rule",
+  "latency_ms": 0.877,
+  "matched_words": [
+    "войти",
+    "пароль"
+  ]
+}

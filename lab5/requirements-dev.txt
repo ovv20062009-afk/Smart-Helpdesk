@@ -3,3 +3,4 @@ pytest==8.4.2
 httpx==0.28.1
 requests==2.32.4
 pyarrow==23.0.1
+ruff==0.11.13
