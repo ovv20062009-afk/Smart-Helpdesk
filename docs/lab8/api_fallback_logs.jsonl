@@ -1,0 +1,12 @@
+{"timestamp": "2026-11-22T09:03:16.716846+00:00", "level": "INFO", "logger": "uvicorn.error", "message": "Started server process [7]"}
+{"timestamp": "2026-11-22T09:03:16.717090+00:00", "level": "INFO", "logger": "uvicorn.error", "message": "Waiting for application startup."}
+{"timestamp": "2026-11-22T09:03:16.717323+00:00", "level": "WARNING", "logger": "smart_helpdesk", "message": "artifacts_unavailable", "error_type": "RuntimeError", "model_version": "v1.4.0"}
+{"timestamp": "2026-11-22T09:03:16.717442+00:00", "level": "INFO", "logger": "uvicorn.error", "message": "Application startup complete."}
+{"timestamp": "2026-11-22T09:03:16.717698+00:00", "level": "INFO", "logger": "uvicorn.error", "message": "Uvicorn running on http://127.0.0.1:8037 (Press CTRL+C to quit)"}
+{"timestamp": "2026-11-22T09:03:18.545682+00:00", "level": "INFO", "logger": "smart_helpdesk", "message": "request_complete", "trace_id": "f8a98f5f-ab30-4f1f-b1dc-0a475572b3a6", "method": "GET", "path": "/ready", "status_code": 503, "latency_ms": 1.348, "model_version": "v1.4.0"}
+{"timestamp": "2026-11-22T09:03:19.018847+00:00", "level": "WARNING", "logger": "smart_helpdesk", "message": "fallback_activated", "trace_id": "0b91986d-5c3b-4156-a120-4c06a2349ec4", "ticket_id": "UI-FALLBACK", "source": "fallback_rule", "error_type": "RuntimeError", "model_version": "v1.4.0"}
+{"timestamp": "2026-11-22T09:03:19.019916+00:00", "level": "INFO", "logger": "smart_helpdesk", "message": "request_complete", "trace_id": "0b91986d-5c3b-4156-a120-4c06a2349ec4", "method": "POST", "path": "/api/v1/predict", "status_code": 200, "latency_ms": 0.51, "model_version": "v1.4.0", "ticket_id": "UI-FALLBACK", "source": "fallback_rule", "category": "TECHNICAL", "destination": "IT_SUPPORT", "manual_review_required": false}
+{"timestamp": "2026-11-22T09:03:21.151728+00:00", "level": "INFO", "logger": "uvicorn.error", "message": "Shutting down"}
+{"timestamp": "2026-11-22T09:03:21.252486+00:00", "level": "INFO", "logger": "uvicorn.error", "message": "Waiting for application shutdown."}
+{"timestamp": "2026-11-22T09:03:21.252746+00:00", "level": "INFO", "logger": "uvicorn.error", "message": "Application shutdown complete."}
+{"timestamp": "2026-11-22T09:03:21.252800+00:00", "level": "INFO", "logger": "uvicorn.error", "message": "Finished server process [7]"}

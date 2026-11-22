@@ -2,8 +2,12 @@
 __pycache__/
 *.py[cod]
 .venv/
+.venv-ui/
 venv/
 .env
+.env.*
+!.env.example
+.streamlit/secrets.toml
 
 # ML artefacts and data
 *.pkl
@@ -17,11 +21,10 @@ mlruns/
 
 # Tooling
 .pytest_cache/
+.ruff_cache/
 .mypy_cache/
 .coverage
 htmlcov/
 .DS_Store
-
 runtime/
 *.sqlite3
-.pytest_cache/

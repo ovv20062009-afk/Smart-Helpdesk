@@ -1,0 +1,37 @@
+[
+  {
+    "scenario": "Форма с настоящей моделью и новый запрос",
+    "method": "AppTest и реальный HTTP",
+    "result": "passed",
+    "trace_id": "dd4d20a5-9424-413b-b7a3-bfc09ee603c6"
+  },
+  {
+    "scenario": "Ошибка доступа после успешного запроса",
+    "method": "Реальный HTTP с неверным токеном",
+    "result": "passed"
+  },
+  {
+    "scenario": "Недоступный сервер",
+    "method": "Реальное соединение с локальным портом без слушателя",
+    "result": "passed"
+  },
+  {
+    "scenario": "Резервный режим",
+    "method": "Реальный HTTP к API с HELPDESK_DISABLE_MODEL=1",
+    "result": "passed",
+    "trace_id": "0b91986d-5c3b-4156-a120-4c06a2349ec4"
+  },
+  {
+    "scenario": "Квота и Retry-After в форме",
+    "method": "Реальный HTTP, намеренное заполнение окна",
+    "result": "passed",
+    "retry_after": "60"
+  },
+  {
+    "scenario": "История и CSV",
+    "method": "Шесть реальных попыток формы, чтение CSV через csv.DictReader",
+    "result": "passed",
+    "rows": 6
+  }
+]
+Проверка завершена. Квота исчерпана намеренно; дождитесь Retry-After либо перезапустите учебный API.

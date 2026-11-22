@@ -1,0 +1,36 @@
+[
+  {
+    "scenario": "Форма с настоящей моделью и новый запрос",
+    "method": "AppTest и реальный HTTP",
+    "result": "passed",
+    "trace_id": "883c83e4-9f7e-47a4-8684-a63ccfa2bc3c"
+  },
+  {
+    "scenario": "Ошибка доступа после успешного запроса",
+    "method": "Реальный HTTP с неверным токеном",
+    "result": "passed"
+  },
+  {
+    "scenario": "Недоступный сервер",
+    "method": "Реальное соединение с локальным портом без слушателя",
+    "result": "passed"
+  },
+  {
+    "scenario": "Резервный режим",
+    "method": "Реальный HTTP к API с HELPDESK_DISABLE_MODEL=1",
+    "result": "passed",
+    "trace_id": "4b682afd-abc8-416e-8923-2cc1618b9763"
+  },
+  {
+    "scenario": "Квота и Retry-After в форме",
+    "method": "Реальный HTTP, намеренное заполнение окна",
+    "result": "passed",
+    "retry_after": "57"
+  },
+  {
+    "scenario": "История и CSV",
+    "method": "Шесть реальных попыток формы, чтение CSV через csv.DictReader",
+    "result": "passed",
+    "rows": 6
+  }
+]
