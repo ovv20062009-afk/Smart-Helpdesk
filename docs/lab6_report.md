@@ -103,7 +103,7 @@ ID проверенного образа: `sha256:b5005941579bd645c24c73bff5a63e
 
 При первом запуске record_docker.py healthcheck ещё имел статус starting. Последующая команда docker inspect подтвердила healthy. Это отдельная проверка после завершения запуска.
 
-На компьютере сохранены docs/lab6/docker_result.json, container_tests.txt, fallback_container_tests.txt и fallback_logs.jsonl внутри lab5. Краткая запись результатов находится в lab5/docs/lab6/windows_checks.md. Статус GitHub Actions предстоит проверить после публикации ветки.
+На компьютере сохранены docs/lab6/docker_result.json, container_tests.txt, fallback_container_tests.txt и fallback_logs.jsonl внутри lab5. Краткая запись результатов находится в lab5/docs/lab6/windows_checks.md. Для коммита ЛР 6 8c53a3cb672683ef22645a618e45e466477c6e75 оба workflow завершились успешно. В ML System CI/CD прошли сборка, проверки обоих контейнеров, JSONL и доставка образа. Запуск: https://github.com/ovv20062009-afk/Smart-Helpdesk/actions/runs/45001264444.
 
 ## Swagger UI
 
@@ -125,6 +125,6 @@ ID проверенного образа: `sha256:b5005941579bd645c24c73bff5a63e
 
 ## Вывод
 
-Сервис Smart Helpdesk дополнен сквозным trace_id, JSON-логами и резервной пороговой эвристикой. Заполнен Model Card и подготовлен многоуровневый GitHub Actions pipeline с тестовым развёртыванием и доставкой образа. Проверены контракты, API, аварийные сценарии и формат журналов. На Windows собран образ v1.4.0, пройдены тесты обычного и резервного контейнеров, подтверждён статус healthy. После публикации остаётся проверить успешный запуск нового workflow в GitHub Actions.
+Сервис Smart Helpdesk дополнен сквозным trace_id, JSON-логами и резервной пороговой эвристикой. Заполнен Model Card и подготовлен многоуровневый GitHub Actions pipeline с тестовым развёртыванием и доставкой образа. Проверены контракты, API, аварийные сценарии и формат журналов. На Windows собран образ v1.4.0, пройдены тесты обычного и резервного контейнеров, подтверждён статус healthy. Workflow ЛР 6 успешно выполнен на GitHub, включая Docker и доставку образа.
 
 Репозиторий: https://github.com/ovv20062009-afk/Smart-Helpdesk

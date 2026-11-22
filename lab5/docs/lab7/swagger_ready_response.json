@@ -1,0 +1,9 @@
+{
+  "status": "ready",
+  "model_loaded": true,
+  "preprocessor_loaded": true,
+  "model_ready": true,
+  "auth_configured": true,
+  "model_version": "v1.4.0",
+  "trace_id": "8d7fc73b-1abf-4164-8b42-b7f3b06abd1a"
+}

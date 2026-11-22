@@ -2,12 +2,13 @@
 
 [![ML System CI/CD](https://github.com/ovv20062009-afk/Smart-Helpdesk/actions/workflows/ml-ci-cd.yml/badge.svg)](https://github.com/ovv20062009-afk/Smart-Helpdesk/actions/workflows/ml-ci-cd.yml)
 
-Текущая версия Docker-сервиса: **v1.4.0**, исходники и инструкция находятся в [lab5](lab5/README.md).
+Текущая версия Docker-сервиса: **v1.4.0**, исходники и инструкция находятся в [lab5](lab5/README.md). В ЛР 7 добавлены Bearer-доступ, квота и /api/v1/predict.
 
 - [Отчёт ЛР 3](docs/lab3_report.md)
 - [Отчёт ЛР 4](lab4/docs/lab4_report.md)
 - [Отчёт ЛР 5](lab5/docs/lab5_report.md)
 - [Отчёт ЛР 6](docs/lab6_report.md)
+- [Отчёт ЛР 7](docs/lab7_report.md)
 - [Model Card](MODEL_CARD.md)
 
 Ниже сохранено описание архитектуры и каркаса ЛР 2.
