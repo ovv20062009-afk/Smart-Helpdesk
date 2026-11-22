@@ -1,0 +1,12 @@
+{
+  "image": "smart-helpdesk:v1.0.0",
+  "image_id": "sha256:47e467e318f829adf641ea3b9abf4ff72a1e609717034e8846ea4927a49f0a79",
+  "image_size_bytes": 156910105,
+  "image_size_mib": 149.64,
+  "container": "smart-helpdesk-lab5",
+  "running": true,
+  "port": 8000,
+  "included_files_bytes": 37505,
+  "smoke_tests": "passed",
+  "healthcheck": "healthy"
+}

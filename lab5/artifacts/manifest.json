@@ -1,0 +1,31 @@
+{
+  "model_version": "v1.0.0",
+  "preprocessor_version": "lab4-tfidf-v1",
+  "algorithm": "LogisticRegression",
+  "C": 4.0,
+  "review_threshold": 0.8,
+  "feature_count": 302,
+  "packages": {
+    "scikit-learn": "1.8.0",
+    "numpy": "2.2.6",
+    "pandas": "2.2.3",
+    "joblib": "1.5.3"
+  },
+  "sha256": {
+    "preprocessor": "867c35c971199446a47932f5a3882b977e05d6b2a183a19077fa46d45286f466",
+    "model": "3b7c7e352c62ef2284041dae2e3d4aa2326912991f789ff2d88c6279251ee012",
+    "preprocessing_code": "a7a4e067356d5b6970db4b61132d9ea670207b40e63dd4c7792249f3b3a07d91"
+  },
+  "training_inputs_sha256": {
+    "train": "9cb520cfb4ba4ffec1f86fe31f0e80225f09d10c255d292eb2ccdfafbda4b0ce",
+    "test": "77e9f5d72fd4f023ab4189a2af2ec1fa87267c4a6bfca76435e50df55727f62e"
+  },
+  "source": "lab4",
+  "metrics": {
+    "train_rows": 48,
+    "test_rows": 12,
+    "feature_count": 302,
+    "test_accuracy": 0.8333333333333334,
+    "test_macro_f1": 0.832010582010582
+  }
+}

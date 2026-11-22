@@ -1,0 +1,4 @@
+Windows, Python 3.12.2
+python -m pytest -q tests/test_api.py
+16 passed, 1 warning in 3.62s
+Предупреждение DeprecationWarning из starlette.testclient об anyio.abc.BlockingPortal.
