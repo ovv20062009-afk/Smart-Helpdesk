@@ -1,0 +1,20 @@
+{
+  "trace_id": "883c83e4-9f7e-47a4-8684-a63ccfa2bc3c",
+  "ticket_id": "UI-REAL-2",
+  "prediction": {
+    "category": "TECHNICAL",
+    "confidence": 0.7278679283013162,
+    "destination": "OPERATOR",
+    "manual_review_required": true,
+    "threshold_used": 0.8,
+    "matched_words": []
+  },
+  "metadata": {
+    "model_version": "v1.4.0",
+    "preprocessor_version": "lab4-tfidf-v1",
+    "timestamp_utc": "2026-11-22T09:55:28.568861Z",
+    "latency_ms": 12.388,
+    "source": "model",
+    "degraded": false
+  }
+}

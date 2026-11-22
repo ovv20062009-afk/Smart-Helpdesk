@@ -1,0 +1,3 @@
+﻿requested_at,ticket_id,text,channel,status,confidence,category,destination,manual_review_required,threshold_used,source,degraded,model_version,preprocessor_version,trace_id,server_timestamp,server_ms,client_ms,error_code
+2026-11-22T09:47:35.740254+00:00,T-8,"Не могу войти, забыла пароль",web,manual,0.7278679283013162,TECHNICAL,OPERATOR,True,0.8,model,False,v1.4.0,lab4-tfidf-v1,fb4752fe-b3b4-4f5c-9583-9785269119ad,2026-11-22T09:47:36.592291+00:00,692.849,891.754,
+2026-11-22T09:49:11.293762+00:00,T-9,"Не могу войти, забыла пароль",web,error,,,,,,,,,,,,,2040.082,connection

@@ -1,0 +1,23 @@
+{
+  "trace_id": "4b682afd-abc8-416e-8923-2cc1618b9763",
+  "ticket_id": "UI-FALLBACK",
+  "prediction": {
+    "category": "TECHNICAL",
+    "confidence": null,
+    "destination": "IT_SUPPORT",
+    "manual_review_required": false,
+    "threshold_used": 0.8,
+    "matched_words": [
+      "войти",
+      "пароль"
+    ]
+  },
+  "metadata": {
+    "model_version": "v1.4.0",
+    "preprocessor_version": "lab4-tfidf-v1",
+    "timestamp_utc": "2026-11-22T09:55:30.703811Z",
+    "latency_ms": 0.573,
+    "source": "fallback_rule",
+    "degraded": true
+  }
+}

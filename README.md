@@ -9,6 +9,8 @@
 - [Отчёт ЛР 5](lab5/docs/lab5_report.md)
 - [Отчёт ЛР 6](docs/lab6_report.md)
 - [Отчёт ЛР 7](docs/lab7_report.md)
+- [Форма и запуск ЛР 8](frontend/README.md)
+- [Отчёт ЛР 8](docs/lab8_report.md)
 - [Model Card](MODEL_CARD.md)
 
 Ниже сохранено описание архитектуры и каркаса ЛР 2.

@@ -1,0 +1,7 @@
+﻿requested_at,ticket_id,text,channel,status,confidence,category,destination,manual_review_required,threshold_used,source,degraded,model_version,preprocessor_version,trace_id,server_timestamp,server_ms,client_ms,error_code
+2026-11-22T09:55:28.391077+00:00,UI-REAL-1,"Не могу войти, забыла пароль",web,manual,0.7278679283013162,TECHNICAL,OPERATOR,True,0.8,model,False,v1.4.0,lab4-tfidf-v1,7078ff91-2107-4069-ba44-0d93886f3bb1,2026-11-22T09:55:28.430682+00:00,22.349,43.021,
+2026-11-22T09:55:28.534384+00:00,UI-REAL-2,"Не могу войти, забыла пароль",web,manual,0.7278679283013162,TECHNICAL,OPERATOR,True,0.8,model,False,v1.4.0,lab4-tfidf-v1,883c83e4-9f7e-47a4-8684-a63ccfa2bc3c,2026-11-22T09:55:28.568861+00:00,12.388,37.065,
+2026-11-22T09:55:28.599566+00:00,UI-401,"Не могу войти, забыла пароль",web,error,,,,,,,,,,45ce56ee-8cc5-40a2-bf15-815c473ad9f0,,,11.612,401
+2026-11-22T09:55:28.636667+00:00,UI-OFFLINE,"Не могу войти, забыла пароль",web,error,,,,,,,,,,,,,2035.539,connection
+2026-11-22T09:55:30.693823+00:00,UI-FALLBACK,"Не могу войти, забыла пароль",web,degraded,,TECHNICAL,IT_SUPPORT,False,0.8,fallback_rule,True,v1.4.0,lab4-tfidf-v1,4b682afd-abc8-416e-8923-2cc1618b9763,2026-11-22T09:55:30.703811+00:00,0.573,14.792,
+2026-11-22T09:55:32.039606+00:00,UI-429,"Не могу войти, забыла пароль",web,error,,,,,,,,,,008d6280-3a89-41aa-b9a4-39612a685cb8,,,9.616,429

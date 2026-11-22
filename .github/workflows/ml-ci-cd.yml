@@ -78,6 +78,14 @@ jobs:
       - name: Record real HTTP access and quota checks
         working-directory: lab5
         run: python record_rest.py
+      - name: Prepare isolated UI environment
+        run: |
+          python -m venv .venv-ui
+          .venv-ui/bin/python -m pip install -r frontend/requirements.txt
+      - name: Test UI with real API and Fallback
+        run: |
+          docker restart smart-helpdesk-ci
+          .venv-ui/bin/python -m frontend.verify_live
       - name: Validate Docker JSONL logs
         working-directory: lab5
         run: |
@@ -107,6 +115,13 @@ jobs:
           name: lab7-verification-${{ github.sha }}
           path: lab5/docs/lab7/
           retention-days: 14
+      - name: Upload UI integration results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab8-verification-${{ github.sha }}
+          path: docs/lab8/
+          retention-days: 14
       - name: Container logs on failure
         if: failure()
         run: |
@@ -117,3 +132,17 @@ jobs:
         run: |
           docker rm -f smart-helpdesk-ci || true
           docker rm -f smart-helpdesk-ci-fallback || true
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: frontend/requirements.txt
+      - run: python -m pip install -r frontend/requirements.txt ruff==0.11.13
+      - run: python -m ruff check frontend tests_frontend --select E9,F
+      - run: python -m pytest tests_frontend -q
