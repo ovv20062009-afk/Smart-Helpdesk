@@ -1,5 +1,5 @@
 {
-  "model_version": "v1.0.0",
+  "model_version": "v1.4.0",
   "preprocessor_version": "lab4-tfidf-v1",
   "algorithm": "LogisticRegression",
   "C": 4.0,
@@ -26,6 +26,61 @@
     "test_rows": 12,
     "feature_count": 302,
     "test_accuracy": 0.8333333333333334,
-    "test_macro_f1": 0.832010582010582
+    "test_macro_f1": 0.832010582010582,
+    "per_class": {
+      "PAYMENT": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1-score": 0.8571428571428571,
+        "support": 4.0
+      },
+      "STUDY": {
+        "precision": 0.75,
+        "recall": 0.75,
+        "f1-score": 0.75,
+        "support": 4.0
+      },
+      "TECHNICAL": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1-score": 0.8888888888888888,
+        "support": 4.0
+      },
+      "accuracy": 0.8333333333333334,
+      "macro avg": {
+        "precision": 0.85,
+        "recall": 0.8333333333333334,
+        "f1-score": 0.832010582010582,
+        "support": 12.0
+      },
+      "weighted avg": {
+        "precision": 0.85,
+        "recall": 0.8333333333333334,
+        "f1-score": 0.832010582010582,
+        "support": 12.0
+      }
+    },
+    "classes": [
+      "PAYMENT",
+      "STUDY",
+      "TECHNICAL"
+    ],
+    "confusion_matrix": [
+      [
+        3,
+        1,
+        0
+      ],
+      [
+        0,
+        3,
+        1
+      ],
+      [
+        0,
+        0,
+        4
+      ]
+    ]
   }
 }

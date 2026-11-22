@@ -1,0 +1,13 @@
+{
+  "trace_id": "c9748f0c-89fa-4930-baa6-a0518632d96d",
+  "ticket_id": "T-TRACE",
+  "category": "TECHNICAL",
+  "confidence": 0.7278679283013157,
+  "destination": "OPERATOR",
+  "manual_review_required": true,
+  "model_version": "v1.4.0",
+  "preprocessor_version": "lab4-tfidf-v1",
+  "source": "model",
+  "latency_ms": 5.337,
+  "matched_words": []
+}

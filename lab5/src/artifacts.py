@@ -6,7 +6,7 @@ from pathlib import Path
 
 import joblib
 
-MODEL_VERSION = "v1.0.0"
+MODEL_VERSION = "v1.4.0"
 PREPROCESSOR_VERSION = "lab4-tfidf-v1"
 PACKAGES = ("scikit-learn", "numpy", "pandas", "joblib")
 

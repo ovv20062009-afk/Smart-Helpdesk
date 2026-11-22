@@ -1,0 +1,105 @@
+name: ML System CI/CD
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            requirements-dev.txt
+            lab4/requirements.txt
+            lab5/requirements-dev.txt
+            lab5/requirements.txt
+      - name: Install pinned dependencies
+        run: python -m pip install -r requirements-dev.txt -r lab4/requirements.txt -r lab5/requirements-dev.txt
+      - name: Lint service and tests
+        run: python -m ruff check lab5/src lab5/tests lab5/prepare_artifacts.py lab5/record_docker.py lab5/check_json_logs.py --select E9,F
+      - name: Previous component and API tests
+        run: python -m pytest -q tests
+      - name: Data contract and data pipeline tests
+        working-directory: lab4
+        run: python -m pytest -q tests/test_pipeline.py
+      - name: Prepare Lab 4 data
+        working-directory: lab4
+        run: |
+          python -m src.make_sample
+          python -m src.pipeline
+      - name: Train model and test API, JSON logs and Fallback
+        working-directory: lab5
+        run: |
+          python prepare_artifacts.py
+          python -m pytest -q
+      - name: Build image tagged with commit SHA
+        working-directory: lab5
+        run: docker build --progress=plain -t "$HELPDESK_IMAGE" .
+        env:
+          HELPDESK_IMAGE: smart-helpdesk:${{ github.sha }}
+      - name: Deploy test container
+        run: docker run -d -p 127.0.0.1:8000:8000 --name smart-helpdesk-ci "$HELPDESK_IMAGE"
+        env:
+          HELPDESK_IMAGE: smart-helpdesk:${{ github.sha }}
+      - name: Smoke tests, Swagger schema and image size
+        working-directory: lab5
+        run: python record_docker.py
+        env:
+          HELPDESK_IMAGE: smart-helpdesk:${{ github.sha }}
+          HELPDESK_CONTAINER: smart-helpdesk-ci
+      - name: Deploy container with disabled model and check Fallback
+        working-directory: lab5
+        env:
+          HELPDESK_IMAGE: smart-helpdesk:${{ github.sha }}
+        run: |
+          docker run -d -p 127.0.0.1:8001:8000 -e HELPDESK_DISABLE_MODEL=1 --name smart-helpdesk-ci-fallback "$HELPDESK_IMAGE"
+          HELPDESK_URL=http://127.0.0.1:8001 HELPDESK_EXPECT_SOURCE=fallback_rule python -m pytest -q tests/test_container.py > docs/lab6/fallback_container_tests.txt
+      - name: Validate Docker JSONL logs
+        working-directory: lab5
+        run: |
+          docker logs smart-helpdesk-ci > docs/lab6/container_logs.jsonl 2>&1
+          docker logs smart-helpdesk-ci-fallback > docs/lab6/fallback_logs.jsonl 2>&1
+          python check_json_logs.py docs/lab6/container_logs.jsonl
+          python check_json_logs.py docs/lab6/fallback_logs.jsonl
+      - name: Package tested Docker image for delivery
+        env:
+          HELPDESK_IMAGE: smart-helpdesk:${{ github.sha }}
+        run: |
+          mkdir -p delivery
+          docker save "$HELPDESK_IMAGE" | gzip > delivery/smart-helpdesk-${{ github.sha }}.tar.gz
+          cp MODEL_CARD.md delivery/
+      - name: Deliver tested image
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-helpdesk-image-${{ github.sha }}
+          path: delivery/
+          compression-level: 0
+          retention-days: 7
+          if-no-files-found: error
+      - name: Upload verification results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab6-verification-${{ github.sha }}
+          path: lab5/docs/lab6/
+          retention-days: 14
+      - name: Container logs on failure
+        if: failure()
+        run: |
+          docker logs smart-helpdesk-ci || true
+          docker logs smart-helpdesk-ci-fallback || true
+      - name: Remove CI test containers
+        if: always()
+        run: |
+          docker rm -f smart-helpdesk-ci || true
+          docker rm -f smart-helpdesk-ci-fallback || true

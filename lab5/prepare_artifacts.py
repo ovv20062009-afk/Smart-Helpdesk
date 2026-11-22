@@ -7,7 +7,7 @@ import shutil
 import joblib
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
 
 from src.artifacts import digest, code_digest, MODEL_VERSION, PACKAGES, PREPROCESSOR_VERSION
 
@@ -41,6 +41,9 @@ def prepare():
     metrics = {"train_rows": len(train), "test_rows": len(test), "feature_count": len(columns),
                "test_accuracy": float(accuracy_score(test["category"], predicted)),
                "test_macro_f1": float(f1_score(test["category"], predicted, average="macro", zero_division=0))}
+    metrics["per_class"] = classification_report(test["category"], predicted, output_dict=True, zero_division=0)
+    metrics["classes"] = classifier.classes_.tolist()
+    metrics["confusion_matrix"] = confusion_matrix(test["category"], predicted, labels=classifier.classes_).tolist()
     manifest = {"model_version": MODEL_VERSION, "preprocessor_version": PREPROCESSOR_VERSION,
                 "algorithm": "LogisticRegression", "C": 4.0, "review_threshold": 0.8,
                 "feature_count": len(columns), "packages": {p: version(p) for p in PACKAGES},
@@ -52,6 +55,8 @@ def prepare():
     (root / "artifacts/manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     (root / "docs").mkdir(exist_ok=True)
     (root / "docs/training_metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (root / "docs/lab6").mkdir(parents=True, exist_ok=True)
+    (root / "docs/lab6/training_metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
     print(json.dumps(metrics, ensure_ascii=False, indent=2))
 
 

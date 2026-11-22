@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {"json": {"()": "src.logger.JSONFormatter"}},
+  "handlers": {"stdout": {"class": "logging.StreamHandler", "formatter": "json", "stream": "ext://sys.stdout"}},
+  "loggers": {
+    "uvicorn": {"handlers": ["stdout"], "level": "INFO", "propagate": false},
+    "uvicorn.error": {"handlers": ["stdout"], "level": "INFO", "propagate": false},
+    "uvicorn.access": {"handlers": [], "propagate": false},
+    "smart_helpdesk": {"handlers": ["stdout"], "level": "INFO", "propagate": false}
+  }
+}

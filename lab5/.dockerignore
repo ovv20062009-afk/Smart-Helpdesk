@@ -3,6 +3,7 @@
 !requirements.txt
 !src/
 !src/*.py
+!src/logging.json
 !artifacts/
 !artifacts/preprocessor.joblib
 !artifacts/manifest.json

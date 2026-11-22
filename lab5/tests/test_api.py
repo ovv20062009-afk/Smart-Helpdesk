@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 import shutil
 from unittest.mock import patch
@@ -74,10 +73,12 @@ def test_loads_once_at_start():
             assert loader.call_count == 2
 
 
-def test_missing_artifact_returns_503(tmp_path):
+def test_missing_artifact_uses_fallback(tmp_path):
     with TestClient(create_app(tmp_path)) as client:
-        assert client.get("/health").status_code == 503
-        assert client.post("/predict", json={"ticket_id": "T-1", "text": "Пароль"}).status_code == 503
+        assert client.get("/health").json()["status"] == "degraded"
+        response = client.post("/predict", json={"ticket_id": "T-1", "text": "Пароль"})
+        assert response.status_code == 200
+        assert response.json()["source"] == "fallback_rule"
 
 
 def test_bad_checksum_is_rejected(tmp_path):
@@ -90,9 +91,12 @@ def test_bad_checksum_is_rejected(tmp_path):
         load_bundle(tmp_path)
 
 
-def test_inference_failure_is_not_success(client):
+def test_inference_failure_is_marked_as_fallback(client):
     with patch.object(client.app.state.model, "predict_proba", side_effect=RuntimeError("failed")):
-        assert client.post("/predict", json={"ticket_id": "T-1", "text": "Пароль"}).status_code == 500
+        response = client.post("/predict", json={"ticket_id": "T-1", "text": "Пароль"})
+        assert response.status_code == 200
+        assert response.json()["source"] == "fallback_rule"
+        assert response.json()["confidence"] is None
 
 
 def test_confident_prediction_selects_department(client):
